@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package topic;
+
+option go_package = "v1/proto";
+
+message Message {
+  uint32 id = 1;
+  string title = 2;
+  string createdAt = 3;
+  string topic = 4;
+}
+
+message Void {}
+
+message SubscribeRequest {
+  string topic = 1;
+  string consumer = 2;
+  string offset = 3;
+}
+
+message TopicRequest {
+  string name = 1;
+}
+
+service Topic {
+  rpc Subscribe (SubscribeRequest) returns (stream Message);
+  rpc Publish (Message) returns (Void);
+  rpc Create (TopicRequest) returns (Void);
+  rpc Delete (TopicRequest) returns (Void);
+}
+
