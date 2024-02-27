@@ -19,6 +19,10 @@ func CreateTopic(name string) *Topic {
 	}
 }
 
+func Exists(topic Topic) bool {
+	return topic.name != ""
+}
+
 func (t *Topic) RegisterObserver(observer *Observer) {
 	t.notifier.Register(observer)
 	fmt.Printf("Registering observer '%s' for topic '%s'. Active observers: %d\n", observer.id, t.name, len(*t.notifier.observers))

@@ -61,6 +61,10 @@ func (s *Server) Subscribe(request *proto.SubscribeRequest, stream proto.Topic_S
 		}
 	}
 
+	if !Exists(topic) {
+		return status.Errorf(codes.NotFound, "Topic not found")
+	}
+
 	if len(request.Offset) > 0 {
 		messages := ReadMessages(request.Offset, request.Topic)
 
