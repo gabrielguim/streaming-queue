@@ -59,7 +59,7 @@ func ReadMessages(offset, topic string) []proto.Message {
 
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
-		return []proto.Message{}
+		return messages
 	}
 
 	fileName := fmt.Sprintf("%s/static/%s_messages.txt", staticFilePath, topic)
@@ -72,7 +72,7 @@ func ReadMessages(offset, topic string) []proto.Message {
 		}
 
 		if messageDate.Before(offsetDate) {
-			fmt.Printf("Ignoring message '%s'. Offset date:%s\n", offsetDate.Format(time.DateTime), row)
+			fmt.Printf("Ignoring message '%s'. Offset date:%s\n", row, offsetDate.Format(time.DateTime))
 		} else {
 			messages = append(messages, message)
 		}

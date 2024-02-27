@@ -44,7 +44,7 @@ func (s *Server) Publish(ctx context.Context, message *proto.Message) (*proto.Vo
 	return &proto.Void{}, nil
 }
 
-func StreamMessage(stream proto.Topic_SubscribeServer, message *proto.Message) {
+func streamMessage(stream proto.Topic_SubscribeServer, message *proto.Message) {
 	err := stream.Send(message)
 	if err != nil {
 		fmt.Printf("Stream ended: %v\n", err)
@@ -69,13 +69,13 @@ func (s *Server) Subscribe(request *proto.SubscribeRequest, stream proto.Topic_S
 		messages := ReadMessages(request.Offset, request.Topic)
 
 		for _, message := range messages {
-			StreamMessage(stream, &message)
+			streamMessage(stream, &message)
 		}
 	}
 
 	observer := &Observer{
 		func(message *proto.Message) {
-			StreamMessage(stream, message)
+			streamMessage(stream, message)
 		},
 		request.Consumer,
 	}
